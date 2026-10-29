@@ -2,6 +2,16 @@
 
 > 2026-10-29 11:30 实测于本机（DSH 桌面端所在的这台 Windows）。
 
+## 进展（11:45 更新）
+
+- ✅ **Gitee 已经通了**：`ssh -T git@gitee.com` 回 `Hi 海洋之星(@maisutong)!`，仓库
+  <https://gitee.com/maisutong/dsh-whale-boot-theme-0.1.0> 已推上去（`main` = `a7cf076`），
+  网页 200、README 正常、raw 文件可取。
+- ⚠️ 顺带发现这台机器的 git HTTPS 是坏的：默认 schannel 后端报
+  `schannel: AcquireCredentialsHandle failed: SEC_E_NO_CREDENTIALS`，加
+  `-c http.sslBackend=openssl` 才正常。这也会连带影响 `pnpm` /`dsh plugin add git+https://…`。
+- ⏳ GitHub 仍然打不开：需要手机上做「加公钥 + 建空仓」两件事，之后我这边一条命令推镜像。
+
 ## 一、这台机器到底能不能连 GitHub
 
 | 目标 | 结果 | 说明 |
