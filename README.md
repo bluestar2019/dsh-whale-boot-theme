@@ -98,6 +98,17 @@ $env:ELECTRON_RUN_AS_NODE=1
 & 'C:\Users\<you>\AppData\Local\Programs\DeepSeek Harness\DeepSeek Harness.exe' .\test-dryrun.mjs
 ```
 
+## 仓库
+
+- 主仓库（市场收录用）：<https://github.com/bluestar2019/dsh-whale-boot-theme>
+- 国内镜像（直连可用）：<https://gitee.com/maisutong/dsh-whale-boot-theme-0.1.0>
+
+网络打不开 GitHub 时，可以直接从镜像装：
+
+```bash
+dsh plugin add git+https://gitee.com/maisutong/dsh-whale-boot-theme-0.1.0.git
+```
+
 ## 许可
 
 - 代码：MIT（见 [LICENSE](./LICENSE)）
