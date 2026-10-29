@@ -15,6 +15,19 @@
 ## 安装
 
 ```bash
+# 从 GitHub 装（还没上 npm 之前用这条）
+dsh plugin add github:bluestar2019/dsh-whale-boot-theme
+```
+
+网络打不开 GitHub 时，走 Gitee 镜像：
+
+```bash
+dsh plugin add git+https://gitee.com/maisutong/dsh-whale-boot-theme-0.1.0.git
+```
+
+上架 npm 之后也可以直接写包名：
+
+```bash
 dsh plugin add dsh-whale-boot-theme
 ```
 
