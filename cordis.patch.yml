@@ -1,0 +1,11 @@
+# dsh-whale-boot-theme — bundle 层。
+#
+# 通过 package.json 的 `dsh.bundle.patch` 声明，`dsh plugin add dsh-whale-boot-theme`
+# 会自动挂载这一层，给插件树插入一个 id 为 dsh-whale-boot-theme 的条目。
+#
+# 插件本体在宿主半边（lib/index.js）：DSH 启动后延迟几秒做一次幂等安装。
+# 可选的配置项写在用户 profile 的 cordis.patch.yml 里（见 README「可调项」），
+# 这里只放默认值 —— 不写任何配置时插件按默认行为工作。
+- insert:
+    - id: dsh-whale-boot-theme
+      name: dsh-whale-boot-theme

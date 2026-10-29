@@ -1,0 +1,70 @@
+# NOTICE — 第三方素材与授权
+
+本包（`dsh-whale-boot-theme`）的**代码**以 MIT 授权发布（见 LICENSE）。它使用了三份
+**不是我们原创**的素材，各自的授权与来源如下。请在使用、再分发或二次开发前读完这一页。
+
+---
+
+## 1. 开机动画片段（**随包内置**）
+
+- 文件：`assets/boot/whale-boot-theme.mp4`
+- 来源：npm 包 [`@ljwei-stak/dsh-boot-animation`](https://www.npmjs.com/package/@ljwei-stak/dsh-boot-animation) v0.4.0 的 `assets/videos/1.mp4`
+- 作者：Alice-Marx（npm 包 author 字段）
+- 授权：**MIT**。该包的 LICENSE 在 MIT 正文之后另附一段说明：
+
+  > The three .mp4 files are the author's own animation work and are distributed
+  > under the same MIT terms as the code.
+
+  即作者明确声明这些视频是他自己的动画作品，与代码同以 MIT 条款分发。
+- 我们的改动：**无**。逐字节复制，未转码、未裁剪、未重绘。
+- 因此本包内置该片段是 MIT 允许的再分发，条件是随包保留版权与许可声明 —— 即本文件
+  与 LICENSE。请勿移除。
+
+## 2. 皮肤「鲸鱼娘 · 未至之境」（**不随包内置，运行时下载**）
+
+- 上游：[`zhu1090093659/dsh-web`](https://github.com/zhu1090093659/dsh-web) 仓库中
+  `market/dist/assets/skins/whale-fantasy/` 目录
+- 作者：**stushansusu**
+- 授权：**CC BY-NC-SA 4.0**（https://creativecommons.org/licenses/by-nc-sa/4.0/）
+- 涉及文件：`skin.json`、`skin.css`、`patches.css`、`assets/whale-fantasy-loop.mp4`
+- 本包**不打包、不再分发**这些文件。插件在首次启动时用 HTTPS 从上游仓库（jsDelivr /
+  raw.githubusercontent 镜像，钉在某个 commit）把它们下载到本机 `$DSH_HOME/skins/`，
+  并校验 `assets/whale-fantasy-loop.mp4` 的 sha256：
+
+  ```
+  db8a022ac3bf877efb764ca4962e79c9b32cc07fa4be2cbc8ac98d4df0310e4d
+  ```
+
+  这样做是为了让美术素材始终由原作者与其选择的托管方分发，本包只承担「搬运 + 校验 +
+  应用」的角色。
+
+### 我们对皮肤做的改动（CC BY-NC-SA 的 ShareAlike 要求标注）
+
+下载后、写入磁盘前，插件会做两处**可读性调整**（可通过配置关闭）：
+
+1. `skin.css` 中四个背景色 token 提高不透明度，让文字在动态画面上更易读：
+   `--dsw-alias-bg-base` `#05070d1a`→`#05070d73`、`--dsw-alias-bg-layer-1`
+   `#0a102080`→`#0a1020b8`、`--dsw-alias-bg-layer-2` `#1428478f`→`#142847bf`、
+   `--dsw-alias-bg-layer-3` `#1830598f`→`#183059bf`。
+2. `skin.json` 中 `contributes.backgroundMedia.{light,dark}.scrim` 由作者原版的「整屏无
+   遮罩」改为
+   `linear-gradient(180deg, rgba(5,7,13,0.34) 0%, rgba(5,7,13,0.38) 86%, rgba(5,7,13,0.44) 96%, rgba(5,7,13,0.50) 100%)`。
+
+这些改动构成对原皮肤的**改编作品**，按 CC BY-NC-SA 4.0 同样以 CC BY-NC-SA 4.0 授权，
+署名 stushansusu。**不得用于商业用途。**
+
+## 3. 从画面上量出来的配色
+
+皮肤自身的调色板全部由原作者从背景动画里取色，属于上面第 2 条的一部分，不是本包的产物。
+
+---
+
+## 关于「非商业」的一个诚实提醒
+
+CC BY-NC-SA 的 **NC** 条款禁止商业使用。如果你打算把本包或其衍生品拿去卖、放进付费
+产品或带广告的产品里，**不能**沿用 A 路线 —— 你需要：
+
+- 换掉第 2 条里来自 whale-fantasy 的美术（自己画，或买一份可商用的授权），并且
+- 确认第 1 条的开机动画（MIT）保留署名即可商用。
+
+本包的代码（MIT）不受此限制；限制来自被搬运的美术。

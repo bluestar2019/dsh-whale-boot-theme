@@ -1,0 +1,53 @@
+{
+  "name": "dsh-whale-boot-theme",
+  "version": "0.1.0",
+  "description": "鲸鱼娘开机动画 + 赛博代码眼动态视频背景 + 全息风格主题：一次性装好，素材在首次启动时从原作者仓库下载（本包不内嵌第三方美术资源）。",
+  "type": "module",
+  "license": "MIT",
+  "author": "huanh",
+  "keywords": [
+    "dsh",
+    "deepseek",
+    "plugin",
+    "theme",
+    "skin",
+    "boot",
+    "animation",
+    "wallpaper",
+    "鲸鱼娘",
+    "主题"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bluestar2019/dsh-whale-boot-theme.git"
+  },
+  "bugs": {
+    "url": "https://github.com/bluestar2019/dsh-whale-boot-theme/issues"
+  },
+  "homepage": "https://github.com/bluestar2019/dsh-whale-boot-theme#readme",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib",
+    "assets",
+    "preview",
+    "cordis.patch.yml",
+    "NOTICE",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "dsh": {
+    "engines": {
+      "dsh": ">=0.2.1-rc.3"
+    },
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  }
+}
