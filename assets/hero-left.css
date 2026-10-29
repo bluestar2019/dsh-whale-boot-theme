@@ -1,0 +1,283 @@
+/* HERO-LEFT · 首屏「左岸」版式（dsh-whale-boot-theme 附带，v1）
+   ----------------------------------------------------------------------------
+   做什么：把首屏（hero）从「居中三件套 + 居中输入卡」改成参考图的左岸版式 ——
+     输入卡靠左一栏、DeepSeek 金属大字标、中文副题、左边沿 HUD 细目与四角角标。
+   怎么装：宿主半边把本文件整体追加到皮肤 <DSH_HOME>/skins/whale-fantasy/patches.css
+     末尾；已存在则以 'HERO-LEFT' 标记定位、整段替换，因此重复执行不会叠加。
+   怎么撤：删掉 patches.css 里从本注释到文件末尾的这一段即可，作者原版 CSS 不受影响。
+   注意：选择器统一用 [class*='_local'] 后缀匹配 —— 类名前缀是每次构建都会变的 hash，
+     后缀（_composerHero / _titleGroup / _headline …）才是稳定的。
+   ---------------------------------------------------------------------------- */
+
+/* ── 1 · 左栏基准 ───────────────────────────────────────────────────────── */
+body [data-conversation-content][data-content-phase='hero'] {
+  position: relative; /* HUD 与落款用绝对定位，锚在这个元素上 */
+  --sk-hero-col: clamp(420px, 40vw, 640px);
+  --sk-hero-gutter: clamp(24px, 7vw, 132px);
+  --dsh-chat-content-width: var(--sk-hero-col);
+  --dsh-composer-card-max-width: calc(var(--sk-hero-col) + 32px);
+}
+
+/* ── 2 · 输入卡靠左 ─────────────────────────────────────────────────────── */
+body [data-content-phase='hero'] [class*='_composerHero'] {
+  align-self: flex-start;
+  margin-left: var(--sk-hero-gutter);
+  margin-right: 0;
+  width: min(calc(var(--sk-hero-col) + 32px), calc(100% - 2 * var(--sk-hero-gutter)));
+  padding-bottom: 44px;
+  gap: 12px;
+}
+
+/* 首屏不再需要居中用的对称留白 */
+body [data-content-phase='hero'] [data-conversation-scroll] {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* 工作区芯片那一行跟左栏对齐 */
+body [data-content-phase='hero'] [class*='_heroWorkspaceRow'] {
+  padding-left: 8px;
+  padding-right: 8px;
+  margin-top: 2px;
+}
+
+/* ── 3 · 字标组 ─────────────────────────────────────────────────────────── */
+/* 原来的三件套：图标与徽章收起，正文用 font-size:0 隐去，
+   位置交给伪元素重写成「小字眉 / 大字标 / 副题」。 */
+body [data-content-phase='hero'] [class*='_headline'] {
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-wrap: nowrap;
+  gap: 0;
+  font-size: 0;
+  line-height: 0;
+}
+
+body [data-content-phase='hero'] [class*='_fishHitbox'],
+body [data-content-phase='hero'] [class*='_previewBadge'] {
+  display: none;
+}
+
+/* 小字眉（原「探索未至之境 + 预览版」留成一行细目） */
+body [data-content-phase='hero'] [class*='_headline']::before {
+  content: '探索未至之境 · 预览版';
+  display: block;
+  margin-bottom: clamp(10px, 1.3vh, 18px);
+  font-family: var(--dsw-font-family);
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 1.6;
+  letter-spacing: 0.34em;
+  color: #e8f1ff80;
+}
+
+body [data-content-phase='hero'] [class*='_titleGroup'] {
+  display: block;
+  width: 100%;
+  font-size: 0;
+  line-height: 0;
+}
+
+body [data-content-phase='hero'] [class*='_titleGroup'] > span:first-child {
+  font-size: 0;
+}
+
+/* 主字标：厚一档、金属渐变 + 自发光
+   （fill 用 background-clip:text，辉光改用 filter: drop-shadow —— 它对透明填充的字
+     是沿字形轮廓投的，text-shadow 则会露出字的方框） */
+body [data-content-phase='hero'] [class*='_titleGroup']::before {
+  content: 'DeepSeek';
+  display: block;
+  font-family: Montserrat, var(--dsw-font-family), sans-serif;
+  font-size: clamp(66px, 6.2vw, 112px);
+  font-weight: 700;
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+  background-image: linear-gradient(
+    172deg,
+    #ffffff 0%,
+    #f8fbff 20%,
+    #e2ecfb 36%,
+    #b7cde8 48%,
+    #93aed0 54%,
+    #e9f3ff 68%,
+    #ffffff 84%,
+    #dbe9ff 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 0.7px #dbe9ff99;
+  filter:
+    drop-shadow(0 0 10px #7aadff8c)
+    drop-shadow(0 0 30px #3a7bff73)
+    drop-shadow(0 0 70px #3a7bff40)
+    drop-shadow(0 2px 0 #060c1899);
+}
+
+/* 中文副题 */
+body [data-content-phase='hero'] [class*='_titleGroup']::after {
+  content: '//////  欢迎来到专业工作模式  //////';
+  display: block;
+  margin-top: clamp(12px, 1.6vh, 20px);
+  font-family: var(--dsw-font-family);
+  font-size: clamp(13px, 1.05vw, 17px);
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0.4em;
+  color: #e8f1ffd6;
+}
+
+/* ── 4 · 英文副题（借用 HeroShell 里那个空 body 槽） ────────────────────── */
+/* 坑：[class*='_body'] 会同时命中 an3WzG_body（首屏整块），必须用
+   :not([data-conversation-content]) 排掉，否则会多出一行字。 */
+body [data-content-phase='hero'] [class*='_body']:not([data-conversation-content])::before {
+  content: 'PROFESSIONAL WORK MODE';
+  display: block;
+  font-family: var(--ff-mono);
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: 0.52em;
+  color: #e8f1ff6b;
+}
+
+/* ── 5 · 左边沿 HUD 细目 ────────────────────────────────────────────────── */
+body [data-conversation-content][data-content-phase='hero']::before {
+  content: 'ANALYTICS\A TRAINING\A RESEARCH\A CONVERSATION\A CREATIVE';
+  white-space: pre;
+  position: absolute;
+  top: clamp(104px, 13vh, 132px);
+  left: clamp(14px, 2.2vw, 40px);
+  padding-left: 10px;
+  border-left: 1px solid #3a7bff6b;
+  font-family: var(--ff-mono);
+  font-size: 9px;
+  line-height: 2.5;
+  letter-spacing: 0.24em;
+  color: #e8f1ff4d;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* 左下角落款 */
+body [data-conversation-content][data-content-phase='hero']::after {
+  content: 'YOUR AI COMPANION\A FOR A SMARTER FUTURE';
+  white-space: pre;
+  position: absolute;
+  bottom: clamp(22px, 3.6vh, 40px);
+  left: clamp(14px, 2.2vw, 40px);
+  font-family: var(--ff-mono);
+  font-size: 9px;
+  line-height: 1.9;
+  letter-spacing: 0.22em;
+  color: #e8f1ff42;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── 6 · 角标装饰（参考图的四角细目） ───────────────────────────────────── */
+body [data-phase='hero'] {
+  position: relative; /* 角标锚在首屏根节点上 */
+  /* 左岸压暗：亮背景下字标与副题才读得清（参考图左侧同样是压暗的） */
+  background-image: linear-gradient(
+    100deg,
+    rgba(4, 6, 12, 0.88) 0%,
+    rgba(4, 6, 12, 0.72) 22%,
+    rgba(4, 6, 12, 0.36) 46%,
+    rgba(4, 6, 12, 0) 68%
+  );
+}
+
+/* 左上：品牌块 */
+body [data-phase='hero']::before {
+  content: '♛  D E E P S E E K\A AI  ASSISTANT\A FOR  A  BETTER  TOMORROW';
+  white-space: pre;
+  position: absolute;
+  top: clamp(54px, 7vh, 76px);
+  left: clamp(14px, 2.2vw, 40px);
+  font-family: var(--ff-mono);
+  font-size: 9px;
+  line-height: 2.2;
+  letter-spacing: 0.2em;
+  color: #e8f1ff73;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* 右上：版本号 */
+body [data-phase='hero']::after {
+  content: 'D E E P S E E K\A V1.0';
+  white-space: pre;
+  position: absolute;
+  top: clamp(20px, 3vh, 38px);
+  right: clamp(14px, 2.2vw, 40px);
+  text-align: right;
+  font-family: var(--ff-mono);
+  font-size: 9px;
+  line-height: 2.2;
+  letter-spacing: 0.2em;
+  color: #e8f1ff59;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* 右缘：标语（借字标组的空 ::after 挂到首屏体上） */
+body [data-phase='hero'] [class*='_headline']::after {
+  content: 'MORE\A INTELLIGENT\A MORE\A CREATIVE';
+  white-space: pre;
+  position: absolute;
+  top: 34vh;
+  right: clamp(14px, 2.2vw, 40px);
+  text-align: right;
+  font-family: var(--ff-mono);
+  font-size: 9px;
+  font-weight: 400;
+  line-height: 2;
+  letter-spacing: 0.2em;
+  color: #e8f1ff4d;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* 左下：启动日志（模拟开机自检的三行） */
+body [data-content-phase='hero'] [data-conversation-scroll]::after {
+  content: '> initializing deepseek …\A > loading model …\A > ready';
+  white-space: pre;
+  position: fixed;
+  left: clamp(14px, 2.2vw, 40px);
+  bottom: clamp(96px, 12vh, 148px);
+  font-family: var(--ff-mono);
+  font-size: 9px;
+  line-height: 2.1;
+  letter-spacing: 0.16em;
+  color: #6fe3d180;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ── 7 · 窄屏退回居中版式 ───────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  body [data-content-phase='hero'] [class*='_composerHero'] {
+    align-self: center;
+    margin-left: 0;
+    width: min(calc(var(--sk-hero-col) + 32px), calc(100% - 32px));
+  }
+  body [data-conversation-content][data-content-phase='hero']::before,
+  body [data-conversation-content][data-content-phase='hero']::after,
+  body [data-phase='hero']::before,
+  body [data-phase='hero']::after,
+  body [data-content-phase='hero'] [class*='_headline']::after,
+  body [data-content-phase='hero'] [data-conversation-scroll]::after {
+    display: none;
+  }
+  body [data-content-phase='hero'] [class*='_headline'] {
+    align-items: center;
+    text-align: center;
+  }
+  body [data-content-phase='hero'] [class*='_headline']::before {
+    text-align: center;
+  }
+}
